@@ -1,34 +1,24 @@
 package com.logicalgeekboy.logical_zoom;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
+import net.minecraft.client.Minecraft;
+import com.logicalgeekboy.keybinds.*;
+import net.minecraftforge.fml.common.Mod;
 
 import org.lwjgl.glfw.GLFW;
 
-public class LogicalZoom implements ClientModInitializer {
+@Mod("logical_zoom")
+public class LogicalZoom {
 
     private static boolean currentlyZoomed;
-    private static KeyBinding keyBinding;
     private static boolean originalSmoothCameraEnabled;
-    private static final MinecraftClient mc = MinecraftClient.getInstance();
+    private static final Minecraft mc = Minecraft.getInstance();
 
     public static final double zoomLevel = 0.23;
+    public static final String MODID = "LogicalZoom";
 
-    @Override
-    public void onInitializeClient() {
-        keyBinding = new KeyBinding("key.logical_zoom.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, "category.logical_zoom.zoom");
-
-        currentlyZoomed = false;
-        originalSmoothCameraEnabled = false;
-
-        KeyBindingHelper.registerKeyBinding(keyBinding);
-    }
 
     public static boolean isZooming() {
-        return keyBinding.isPressed();
+        return KeyboardInput.zoomKey.isDown();
     }
 
     public static void manageSmoothCamera() {
@@ -44,15 +34,15 @@ public class LogicalZoom implements ClientModInitializer {
     }
 
     private static boolean isSmoothCamera() {
-        return mc.options.smoothCameraEnabled;
+        return mc.options.smoothCamera;
     }
 
     private static void enableSmoothCamera() {
-        mc.options.smoothCameraEnabled = true;
+        mc.options.smoothCamera = true;
     }
 
     private static void disableSmoothCamera() {
-        mc.options.smoothCameraEnabled = false;
+        mc.options.smoothCamera = false;
     }
 
     private static boolean zoomStarting() {
