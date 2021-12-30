@@ -1,27 +1,29 @@
-package com.logicalgeekboy.logical_zoom;
+package com.siromgitsyou.zoomer_zoom;
 
 import net.minecraft.client.Minecraft;
-import com.logicalgeekboy.keybinds.*;
 import net.minecraftforge.fml.common.Mod;
 
-import org.lwjgl.glfw.GLFW;
+@Mod("zoomerzoom")
+public class ZoomerZoom {
 
-@Mod("logical_zoom")
-public class LogicalZoom {
-
-    private static boolean currentlyZoomed;
-    private static boolean originalSmoothCameraEnabled;
+    private static boolean currentlyZoomed = false;
+    private static boolean originalSmoothCameraEnabled = false;
     private static final Minecraft mc = Minecraft.getInstance();
 
-    public static final double zoomLevel = 0.23;
-    public static final String MODID = "LogicalZoom";
+    public static final double ZOOM_LEVEL = 0.23;
 
+    public ZoomerZoom() {
+
+        KeyBindings.init();
+
+    }
 
     public static boolean isZooming() {
-        return KeyboardInput.zoomKey.isDown();
+        return KeyBindings.keyZoom.isKeyDown();
     }
 
     public static void manageSmoothCamera() {
+
         if (zoomStarting()) {
             zoomStarted();
             enableSmoothCamera();
@@ -31,18 +33,19 @@ public class LogicalZoom {
             zoomStopped();
             resetSmoothCamera();
         }
+
     }
 
     private static boolean isSmoothCamera() {
-        return mc.options.smoothCamera;
+        return mc.gameSettings.smoothCamera;
     }
 
     private static void enableSmoothCamera() {
-        mc.options.smoothCamera = true;
+        mc.gameSettings.smoothCamera = true;
     }
 
     private static void disableSmoothCamera() {
-        mc.options.smoothCamera = false;
+        mc.gameSettings.smoothCamera = false;
     }
 
     private static boolean zoomStarting() {
@@ -69,4 +72,5 @@ public class LogicalZoom {
             disableSmoothCamera();
         }
     }
+
 }
