@@ -1,11 +1,14 @@
 package com.siromgitsyou.zoomer_zoom;
 
+import com.siromgitsyou.zoomer_zoom.KeyBindings;
+
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.network.FMLNetworkConstants;
-import org.apache.commons.lang3.tuple.Pair;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
 
 @Mod("zoomerzoom")
 public class ZoomerZoom {
@@ -14,27 +17,16 @@ public class ZoomerZoom {
     private static boolean originalSmoothCameraEnabled = false;
     private static final Minecraft mc = Minecraft.getInstance();
 
-    
-
     public static final double ZOOM_LEVEL = 0.23;
 
     public ZoomerZoom() {
 
         KeyBindings.init();
-        ignoreServerOnly();
 
-    }
-
-    // Make sure the mod being absent on the other network side does not cause the client to display the server as incompatible
-    private void ignoreServerOnly() {
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(
-                () -> FMLNetworkConstants.IGNORESERVERONLY,
-                (Forgeisdumb, whycantforgebemorelikefabric) -> true)
-        );
     }
 
     public static boolean isZooming() {
-        return KeyBindings.keyZoom.isKeyDown();
+        return KeyBindings.keyZoom.isDown();
     }
 
     public static void manageSmoothCamera() {
@@ -52,15 +44,15 @@ public class ZoomerZoom {
     }
 
     private static boolean isSmoothCamera() {
-        return mc.gameSettings.smoothCamera;
+        return mc.options.smoothCamera;
     }
 
     private static void enableSmoothCamera() {
-        mc.gameSettings.smoothCamera = true;
+        mc.options.smoothCamera = true;
     }
 
     private static void disableSmoothCamera() {
-        mc.gameSettings.smoothCamera = false;
+        mc.options.smoothCamera = false;
     }
 
     private static boolean zoomStarting() {
