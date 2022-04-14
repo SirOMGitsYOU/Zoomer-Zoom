@@ -5,6 +5,8 @@ loaderVersion="[33,37)" #mandatory This is typically bumped every Minecraft vers
 # The mod license
 license="MIT"
 # A list of mods - how many allowed here is determined by the individual mod loader
+
+
 [[mods]] #mandatory
 # The modid of the mod
 modId="zoomerzoom" #mandatory
@@ -14,6 +16,9 @@ version="1.0" #mandatory
 displayName="Zoomer Zoom" #mandatory
 # A text field displayed in the mod UI
 authors="SirOMGitsYOU" #optional
+# Make it not required on servers 
+clientSideOnly="true"
+side="CLIENT"
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Zoomer Zoom, This aims to be the best Zoom Mod on the market, as ported from Logical Zoom on Fabric, Zoomer Zoom offers additional features such as mouse scrollwheel zoom to add additional and less zoom.

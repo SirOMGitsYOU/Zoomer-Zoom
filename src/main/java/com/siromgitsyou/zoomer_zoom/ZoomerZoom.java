@@ -2,6 +2,10 @@ package com.siromgitsyou.zoomer_zoom;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
+import org.apache.commons.lang3.tuple.Pair;
 
 @Mod("zoomerzoom")
 public class ZoomerZoom {
@@ -10,12 +14,23 @@ public class ZoomerZoom {
     private static boolean originalSmoothCameraEnabled = false;
     private static final Minecraft mc = Minecraft.getInstance();
 
+    
+
     public static final double ZOOM_LEVEL = 0.23;
 
     public ZoomerZoom() {
 
         KeyBindings.init();
+        ignoreServerOnly();
 
+    }
+
+    // Make sure the mod being absent on the other network side does not cause the client to display the server as incompatible
+    private void ignoreServerOnly() {
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(
+                () -> FMLNetworkConstants.IGNORESERVERONLY,
+                (Forgeisdumb, whycantforgebemorelikefabric) -> true)
+        );
     }
 
     public static boolean isZooming() {
